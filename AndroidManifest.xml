@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.maliugin">
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
+    <application android:icon="@drawable/box_yellow" android:label="1widget" android:debuggable="true">
+        <receiver android:name=".InternetWidgetProvider">
+                <intent-filter>
+                    <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                    <action android:name="com.example.ACTION_WIDGET_RECEIVER" />
+                </intent-filter>
+                <meta-data android:name="android.appwidget.provider"
+                        android:resource="@xml/widget_provider" />
+        </receiver>
+    </application>
+</manifest>
