@@ -18,7 +18,7 @@
             <meta-data android:name="android.appwidget.provider"
                        android:resource="@xml/widget_provider"/>
         </receiver>
-        <activity android:name=".widget.PreferencesWidgetAtivity">
+        <activity android:name=".widget.PreferencesWidgetActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
