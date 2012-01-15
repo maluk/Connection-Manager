@@ -16,12 +16,11 @@ import com.maliugin.connectionmanager.R;
  * Time: 22:53:10
  * To change this template use File | Settings | File Templates.
  */
-public class PreferencesWidgetAtivity extends PreferenceActivity {
+public class PreferencesWidgetActivity extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-        //jkjlkjkl
     }
 
 }
