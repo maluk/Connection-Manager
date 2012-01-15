@@ -1,0 +1,4 @@
+<resources>
+    <string name="internet_enabled">Интернет будет включен через несколько секунд</string>
+    <string name="internet_disabled">Интернет будет выключен через несколько секунд</string>
+</resources>

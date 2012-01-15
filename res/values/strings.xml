@@ -1,4 +1,9 @@
 <resources>
+<<<<<<< HEAD
+    <string name="internet_enabled">Internet will be enabled after few seconds</string>
+    <string name="internet_disabled">Internet will be disabled after few seconds</string>
+=======
     <string name="internet_enabled">Internet will be connected after a few seconds</string>
     <string name="internet_disabled">Internet will be disconnected after a few seconds</string>
+>>>>>>> df13d32b50ec16b0131ff286cab1eb95b6a7f9f8
 </resources>

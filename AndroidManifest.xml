@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.maliugin">
+          package="com.maliugin.connectionmanager"
+          android:versionCode="2"
+          android:versionName="0.1.1">
+    <uses-sdk android:minSdkVersion="7"/>
     <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
-    <application android:icon="@drawable/box_yellow" android:label="1widget" android:debuggable="true">
-        <receiver android:name=".InternetWidgetProvider">
-                <intent-filter>
-                    <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                    <action android:name="com.example.ACTION_WIDGET_RECEIVER" />
-                </intent-filter>
-                <meta-data android:name="android.appwidget.provider"
-                        android:resource="@xml/widget_provider" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <application android:icon="@drawable/box_yellow" android:label="Connection Manager" android:debuggable="false">
+        <receiver android:name=".widget.InternetWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.example.ACTION_WIDGET_RECEIVER"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/widget_provider"/>
         </receiver>
+        <activity android:name=".widget.PreferencesWidgetAtivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
