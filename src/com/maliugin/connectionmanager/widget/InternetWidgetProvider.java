@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 import com.maliugin.connectionmanager.R;
@@ -20,23 +21,11 @@ public class InternetWidgetProvider extends AppWidgetProvider {
     public static final int DISABLED_ICON = R.drawable.box_red;
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        //
-        super.onEnabled(context);
-        RemoteViews views = createWidgetView(context);
-        Intent active = new Intent(context, InternetWidgetProvider.class);
-        active.setAction(ACTION_WIDGET_RECEIVER);
-        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
-        views.setOnClickPendingIntent(R.id.widget_button, actionPendingIntent);
-        setStatusImg(createAPNManager(context), views);
-        appWidgetManager.updateAppWidget(appWidgetIds, views);
-    }
-
-    @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         MobileConnectionManager apnManager = createAPNManager(context);
         RemoteViews views = createWidgetView(context);
+        setWidgetResources(context, views);
         if (ACTION_WIDGET_RECEIVER.equals(action)) {
             boolean isEnabled = apnManager.isConnectionEnabled();
             showMessage(context, isEnabled);
@@ -47,6 +36,14 @@ public class InternetWidgetProvider extends AppWidgetProvider {
         int[] widgetIds = manager.getAppWidgetIds(new ComponentName(context, InternetWidgetProvider.class));
         manager.updateAppWidget(widgetIds, views);
         super.onReceive(context, intent);
+    }
+
+    protected void setWidgetResources(Context context, RemoteViews views) {
+        Intent active = new Intent(context, InternetWidgetProvider.class);
+        active.setAction(ACTION_WIDGET_RECEIVER);
+        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+        views.setOnClickPendingIntent(R.id.widget_button, actionPendingIntent);
+        setStatusImg(createAPNManager(context), views);
     }
 
     protected void showMessage(Context context, boolean APNEnabled) {
