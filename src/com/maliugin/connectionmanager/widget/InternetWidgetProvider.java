@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 import com.maliugin.connectionmanager.R;
@@ -21,8 +22,6 @@ public class InternetWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        //
-        super.onEnabled(context);
         RemoteViews views = createWidgetView(context);
         Intent active = new Intent(context, InternetWidgetProvider.class);
         active.setAction(ACTION_WIDGET_RECEIVER);
@@ -30,6 +29,7 @@ public class InternetWidgetProvider extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.widget_button, actionPendingIntent);
         setStatusImg(createAPNManager(context), views);
         appWidgetManager.updateAppWidget(appWidgetIds, views);
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
