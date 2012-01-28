@@ -19,6 +19,7 @@ public class ReflectionAPIConnectionManager implements MobileConnectionManager {
     private final Context context;
 
     public ReflectionAPIConnectionManager(Context context) {
+        //
         this.context = context;
     }
 
