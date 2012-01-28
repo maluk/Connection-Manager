@@ -13,11 +13,6 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="com.example.ACTION_WIDGET_RECEIVER"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <!--Update widget after memory clean-->
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.PACKAGE_RESTARTED" />
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
                        android:resource="@xml/widget_provider"/>

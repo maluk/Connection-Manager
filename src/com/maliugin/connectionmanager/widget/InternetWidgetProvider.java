@@ -21,14 +21,6 @@ public class InternetWidgetProvider extends AppWidgetProvider {
     public static final int DISABLED_ICON = R.drawable.box_red;
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        RemoteViews views = createWidgetView(context);
-        setWidgetResources(context, views);
-        appWidgetManager.updateAppWidget(appWidgetIds, views);
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
-    }
-
-    @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         MobileConnectionManager apnManager = createAPNManager(context);
