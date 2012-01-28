@@ -23,11 +23,7 @@ public class InternetWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         RemoteViews views = createWidgetView(context);
-        Intent active = new Intent(context, InternetWidgetProvider.class);
-        active.setAction(ACTION_WIDGET_RECEIVER);
-        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
-        views.setOnClickPendingIntent(R.id.widget_button, actionPendingIntent);
-        setStatusImg(createAPNManager(context), views);
+        setWidgetResources(context, views);
         appWidgetManager.updateAppWidget(appWidgetIds, views);
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
@@ -37,6 +33,7 @@ public class InternetWidgetProvider extends AppWidgetProvider {
         final String action = intent.getAction();
         MobileConnectionManager apnManager = createAPNManager(context);
         RemoteViews views = createWidgetView(context);
+        setWidgetResources(context, views);
         if (ACTION_WIDGET_RECEIVER.equals(action)) {
             boolean isEnabled = apnManager.isConnectionEnabled();
             showMessage(context, isEnabled);
@@ -47,6 +44,19 @@ public class InternetWidgetProvider extends AppWidgetProvider {
         int[] widgetIds = manager.getAppWidgetIds(new ComponentName(context, InternetWidgetProvider.class));
         manager.updateAppWidget(widgetIds, views);
         super.onReceive(context, intent);
+    }
+
+    protected void setWidgetResources(Context context, RemoteViews views) {
+        Intent active = new Intent(context, InternetWidgetProvider.class);
+        active.setAction(ACTION_WIDGET_RECEIVER);
+        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+        views.setOnClickPendingIntent(R.id.widget_button, actionPendingIntent);
+        setStatusImg(createAPNManager(context), views);
+    }
+
+    @Override
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
     }
 
     protected void showMessage(Context context, boolean APNEnabled) {
