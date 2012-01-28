@@ -54,11 +54,6 @@ public class InternetWidgetProvider extends AppWidgetProvider {
         setStatusImg(createAPNManager(context), views);
     }
 
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-    }
-
     protected void showMessage(Context context, boolean APNEnabled) {
         int message = APNEnabled ? R.string.internet_disabled : R.string.internet_enabled;
         Toast toastMessage = Toast.makeText(context, message, Toast.LENGTH_SHORT);
