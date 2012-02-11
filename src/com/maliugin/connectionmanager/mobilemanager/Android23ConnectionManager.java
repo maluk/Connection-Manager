@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.telephony.TelephonyManager;
 import com.maliugin.connectionmanager.mobilemanager.MobileConnectionManager;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -15,6 +16,7 @@ import java.lang.reflect.Method;
  * To change this template use File | Settings | File Templates.
  */
 public class Android23ConnectionManager implements MobileConnectionManager {
+    private static final String CONNECTIVITY_SERVICE = "connectivity";
     private final Context context;
 
     public Android23ConnectionManager(Context context) {
@@ -22,30 +24,26 @@ public class Android23ConnectionManager implements MobileConnectionManager {
     }
 
     public boolean isConnectionEnabled() {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService("connectivity");
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        Class cmClazz = cm.getClass();
         try {
-            Class cmClazz = cm.getClass();
             Method localMethod = cmClazz.getMethod("getMobileDataEnabled");
             return ((Boolean) localMethod.invoke(cm)).booleanValue();
-        } catch (Exception ex) {
-            return true;
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public void enableConnection() {
-        try {
-            changeConnection(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeConnection(true);
     }
 
     public void disableConnection() {
-        try {
-            changeConnection(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeConnection(false);
     }
 
     public void switchConnection() {
@@ -56,10 +54,18 @@ public class Android23ConnectionManager implements MobileConnectionManager {
         }
     }
 
-    private void changeConnection(boolean enable) throws Exception {
+    private void changeConnection(boolean enable) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService("connectivity");
         Class cmClass = cm.getClass();
-        Method localMethod = cmClass.getMethod("setMobileDataEnabled", Boolean.TYPE);
-        localMethod.invoke(cm, enable);
+        try {
+            Method localMethod = cmClass.getMethod("setMobileDataEnabled", Boolean.TYPE);
+            localMethod.invoke(cm, enable);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

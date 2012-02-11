@@ -46,8 +46,8 @@ public class InternetWidgetProvider extends AppWidgetProvider {
         setStatusImg(createAPNManager(context), views);
     }
 
-    protected void showMessage(Context context, boolean APNEnabled) {
-        int message = APNEnabled ? R.string.internet_disabled : R.string.internet_enabled;
+    protected void showMessage(Context context, boolean apnEnabled) {
+        int message = apnEnabled ? R.string.internet_disabled : R.string.internet_enabled;
         Toast toastMessage = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toastMessage.show();
     }
@@ -57,7 +57,7 @@ public class InternetWidgetProvider extends AppWidgetProvider {
     }
 
     protected MobileConnectionManager createAPNManager(Context context) {
-        if (Integer.valueOf(Build.VERSION.SDK) >= 9) {
+        if (Build.VERSION.SDK_INT >= 9) {
             return new Android23ConnectionManager(context);
         } else {
             return new ReflectionAPIConnectionManager(context); 

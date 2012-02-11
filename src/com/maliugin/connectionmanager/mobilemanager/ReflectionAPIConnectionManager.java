@@ -30,19 +30,11 @@ public class ReflectionAPIConnectionManager implements MobileConnectionManager {
     }
 
     public void enableConnection() {
-        try {
-            changeConnection(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeConnection(true);
     }
 
     public void disableConnection() {
-        try {
-            changeConnection(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeConnection(false);
     }
 
     public void switchConnection() {
@@ -53,29 +45,34 @@ public class ReflectionAPIConnectionManager implements MobileConnectionManager {
         }
     }
 
-    private void changeConnection(boolean enable) throws Exception {
-        Method dataConnSwitchmethod;
-        Class telephonyManagerClass;
-        Object ITelephonyStub;
-        Class ITelephonyClass;
-
+    private void changeConnection(boolean enable) {
         TelephonyManager telephonyManager = (TelephonyManager) context
                 .getSystemService(Context.TELEPHONY_SERVICE);
+        try {
+            Class telephonyManagerClass = Class.forName(telephonyManager.getClass().getName());
+            Method getITelephonyMethod = telephonyManagerClass.getDeclaredMethod("getITelephony");
+            getITelephonyMethod.setAccessible(true);
+            Object ITelephonyStub = getITelephonyMethod.invoke(telephonyManager);
+            Class ITelephonyClass = Class.forName(ITelephonyStub.getClass().getName());
 
-        telephonyManagerClass = Class.forName(telephonyManager.getClass().getName());
-        Method getITelephonyMethod = telephonyManagerClass.getDeclaredMethod("getITelephony");
-        getITelephonyMethod.setAccessible(true);
-        ITelephonyStub = getITelephonyMethod.invoke(telephonyManager);
-        ITelephonyClass = Class.forName(ITelephonyStub.getClass().getName());
-
-        if (enable) {
-            dataConnSwitchmethod = ITelephonyClass
-                    .getDeclaredMethod("enableDataConnectivity");
-        } else {
-            dataConnSwitchmethod = ITelephonyClass
-                    .getDeclaredMethod("disableDataConnectivity");
+            Method dataConnSwitchMethod;
+            if (enable) {
+                dataConnSwitchMethod = ITelephonyClass
+                        .getDeclaredMethod("enableDataConnectivity");
+            } else {
+                dataConnSwitchMethod = ITelephonyClass
+                        .getDeclaredMethod("disableDataConnectivity");
+            }
+            dataConnSwitchMethod.setAccessible(true);
+            dataConnSwitchMethod.invoke(ITelephonyStub);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
-        dataConnSwitchmethod.setAccessible(true);
-        dataConnSwitchmethod.invoke(ITelephonyStub);
     }
 }
