@@ -1,7 +1,5 @@
 package com.maliugin.connectionmanager.mobilemanager;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * Created by IntelliJ IDEA.
  * User: maluk

@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 import com.maliugin.connectionmanager.R;
@@ -60,7 +59,7 @@ public class InternetWidgetProvider extends AppWidgetProvider {
         if (Build.VERSION.SDK_INT >= 9) {
             return new Android23ConnectionManager(context);
         } else {
-            return new ReflectionAPIConnectionManager(context); 
+            return new ReflectionAPIConnectionManager(context);
         }
     }
 

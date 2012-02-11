@@ -2,8 +2,6 @@ package com.maliugin.connectionmanager.mobilemanager;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.telephony.TelephonyManager;
-import com.maliugin.connectionmanager.mobilemanager.MobileConnectionManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
